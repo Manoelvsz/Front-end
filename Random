@@ -1,0 +1,266 @@
+Html:
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="esquerda" class="coluna-esquerda">
+            <div class="quadrinho">M</div>
+            <div class="quadrinho">A</div>
+            <div class="quadrinho">N</div>
+            <div class="quadrinho">O</div>
+            <div class="quadrinho">E</div>
+            <div class="quadrinho">L</div>
+            <div class="quadrinho">V</div>
+            <div class="quadrinho">I</div>
+            <div class="quadrinho">T</div>
+            <div class="quadrinho">R</div>
+            <div class="quadrinho">S</div>
+            <div class="quadrinho">D</div>
+            <div class="quadrinho">U</div>
+            <div class="quadrinho">Z</div>
+            <div class="quadrinho">2</div>
+            <div class="quadrinho">0</div>
+            <div class="quadrinho">3</div>
+            <div class="quadrinho">5</div>
+            <div class="quadrinho"></div> <!-- Quadrinho para espaço -->
+        </div>
+
+        <div class="coluna-direita">
+            <div class="rotulo">
+                Nome: <span id="id-nome" class="resposta">?</span>
+            </div>
+            <div class="rotulo">
+                Sobrenome: <span id="id-sobrenome" class="resposta">?</span>
+            </div>
+            <div class="rotulo">
+                Número de matrícula: <span id="id-matricula" class="resposta">?</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn">EMBARALHAR TUDO</button>
+    <div id="msg" class="coluna-direita mensagem"></div>
+
+    <script>
+        const quadrinhos = document.querySelectorAll('.quadrinho');
+        const respostaElementos = document.querySelectorAll('.resposta');
+        const mensagem = document.getElementById('msg');
+
+        const nome = "MANOEL VITOR";
+        const sobrenome = "SANTOS DE SOUZA";
+        const matricula = "200032533";
+
+        function inicializaResposta(id, texto) {
+            const interrogações = '?'.repeat(texto.length);
+            document.getElementById(id).textContent = interrogações;
+            return texto;
+        }
+
+        const nomeCompleto = inicializaResposta('id-nome', nome);
+        const sobrenomeCompleto = inicializaResposta('id-sobrenome', sobrenome);
+        const matriculaCompleta = inicializaResposta('id-matricula', matricula);
+
+        quadrinhos.forEach((quadrinho) => {
+            quadrinho.addEventListener('click', function() {
+                const letra = this.textContent.trim();
+                if (letra === "") { // Se for o quadrinho vazio, adiciona espaço
+                    adicionarEspaco();
+                } else {
+                    preencherResposta(nomeCompleto, letra, 'id-nome');
+                    preencherResposta(sobrenomeCompleto, letra, 'id-sobrenome');
+                    preencherResposta(matriculaCompleta, letra, 'id-matricula');
+                }
+            });
+        });
+
+        function preencherResposta(textoCompleto, letra, id) {
+            const respostaElement = document.getElementById(id);
+            const respostaText = respostaElement.textContent;
+
+            if (textoCompleto.includes(letra)) {
+                let respostaArray = respostaText.split('');
+                for (let i = 0; i < textoCompleto.length; i++) {
+                    if (textoCompleto[i] === letra && respostaArray[i] === '?') {
+                        respostaArray[i] = letra; // Substitui na posição correta
+                    }
+                }
+                respostaElement.textContent = respostaArray.join('');
+                verificarSucesso(); // Verifica se todos os caracteres foram preenchidos
+            }
+        }
+
+        function adicionarEspaco() {
+            // Para cada resposta, verifica onde pode adicionar um espaço
+            ['id-nome', 'id-sobrenome', 'id-matricula'].forEach(id => {
+                const respostaElement = document.getElementById(id);
+                const respostaText = respostaElement.textContent;
+                const textoCompleto = id === 'id-nome' ? nome : (id === 'id-sobrenome' ? sobrenome : matricula);
+
+                let respostaArray = respostaText.split('');
+
+                // Encontra a primeira posição de '?' e substitui por espaço
+                for (let i = 0; i < textoCompleto.length; i++) {
+                    if (respostaArray[i] === '?' && textoCompleto[i] === ' ') {
+                        respostaArray[i] = ' '; // Substitui "?" por espaço
+                        break; // Para ao encontrar a primeira posição
+                    }
+                }
+                respostaElement.textContent = respostaArray.join('');
+            });
+        }
+
+        function verificarSucesso() {
+            const nomePreenchido = document.getElementById('id-nome').textContent === nome;
+            const sobrenomePreenchido = document.getElementById('id-sobrenome').textContent === sobrenome;
+            const matriculaPreenchida = document.getElementById('id-matricula').textContent === matricula;
+
+            // Verifica se todas as respostas foram preenchidas corretamente
+            if (nomePreenchido && sobrenomePreenchido && matriculaPreenchida) {
+                mensagem.textContent = 'PERFEITO! VOCÊ CONSEGUIU!!!!';
+            }
+        }
+
+        // Embaralhar a ordem dos quadrinhos
+        document.querySelector('.btn').addEventListener('click', function() {
+            const container = document.querySelector('.coluna-esquerda');
+            const shuffled = Array.from(quadrinhos).sort(() => Math.random() - 0.5);
+            container.innerHTML = '';
+            shuffled.forEach(quadrinho => {
+                container.appendChild(quadrinho);
+            });
+        });
+
+        // Mudar a cor dos quadrinhos ao clicar
+        quadrinhos.forEach(quadrinho => {
+            quadrinho.addEventListener('mousedown', function() {
+                this.style.backgroundColor = 'DimGrey';
+            });
+
+            quadrinho.addEventListener('mouseup', function() {
+                this.style.backgroundColor = '';
+            });
+
+            quadrinho.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+
+        const btnEmbaralhar = document.querySelector('.btn');
+
+        btnEmbaralhar.addEventListener('mousedown', function() {
+            this.style.backgroundColor = 'DimGrey';
+        });
+
+        btnEmbaralhar.addEventListener('mouseup', function() {
+            this.style.backgroundColor = '';
+        });
+
+        btnEmbaralhar.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+        });
+    </script>
+</body>
+</html>
+
+
+CSS:
+
+body {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-color: darkolivegreen;
+}
+
+.container {
+    display: flex;
+}
+
+.quadrinho {
+    display: flex;
+    margin: auto;
+    margin-bottom: 10px;
+    background-color: orange;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 3px 0px inset white,
+        -3px -3px 3px 0px inset black,
+        2px 3px 4px 1px rgb(0, 0, 0, 0.6);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 2em;
+}
+
+.coluna-esquerda {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    height: fit-content;
+    background-color: darkgray;
+    width: 30%;
+    border-radius: 14px 0 14px 0;
+    box-shadow: 3px 3px 3px 0px inset white,
+        -3px -3px 3px 0px inset black,
+        2px 5px 8px 1px rgb(0, 0, 0, 0.5);
+}
+
+.coluna-direita {
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    padding-bottom: 50px;
+    height: fit-content;
+    background-color: rgb(255, 255, 255, 0.4);
+    width: 50%;
+    border-radius: 14px 0 14px 0;
+    box-shadow: 3px 3px 3px 0px inset white,
+        -3px -3px 3px 0px inset black,
+        2px 5px 8px 1px rgb(0, 0, 0, 0.5);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.4em;
+    color: white;
+}
+
+.rotulo {
+    margin-top: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+.resposta {
+    color: orange;
+    font-weight: 900;
+}
+
+.btn {
+    display: flex;
+    margin: auto;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bolder;
+    background-color: orange;
+    box-shadow: 3px 3px 3px 0px inset white,
+        -3px -3px 3px 0px inset black,
+        2px 3px 4px 1px rgb(0, 0, 0, 0.6);
+    font-size: 2em;
+}
+
+.mensagem {
+    height: 40px;
+    text-align: center;
+}
