@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+
+}
+
+body{
+    background-color: rgb(75, 112, 160);
+}
+
+.box{
+    background-color: rgb(243, 246, 250);
+    text-align: center;
+    margin-top: 20%;
+    margin-left: 650px;
+    margin-right: 650px;
+    height: 350px;
+    padding: auto;
+    padding-top: 30px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px ; 
+}
+#TODO{
+margin-bottom: 25px;  
+color: rgb(92, 140, 230);
+
+
+}
+.inputText{
+    display:flex;
+    margin-left: 60px;
+
+}
+.inputText input{
+    width: 450px;
+    border-color: rgb(241, 197, 0);
+    border-radius: 5px;
+    border-style: solid;
+
+
+}
+.marCaixa{
+    margin-left: 5px;
+
+}
+.inputText .caixinha{
+    background-color: rgb(92, 140, 230);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    width: 15px;
+
+}
+
+.continer{
+    margin-right: 80px;
+}
+
+.ajustar{
+    margin-top: 20px;
+    
+}
+
+.inputCheck{
+    display: flex;
+    margin-left: 100px;
+    align-items: center;
+    color: blue;
+    
+}
+
+.linha{
+    background-color: rgba(74, 142, 243, 0.521);
+    height: 1px;
+    width: 475px;
+    margin-left: 60px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.coluna{
+    margin-left: auto;
+    margin-right: 30px;
+
+ 
+}
+#imgColor{
+    color: red;
+}
+  .botoes{
+    margin-top: 10px;
+  }
+
+  .botoes button{
+    padding: 5px;
+    border-radius: 5px;
+    width: 150px;
+    font-weight: bold;
+  }
+
+  #red{
+background-color: rgb(145, 2, 2);
+color: white;  
+}
+
+#grey{
+    background-color: rgb(185, 185, 185);
+    color: blue;
+}
+#caixa{
+    margin-right: 7px;
+    align-items: center;
+
+}
